@@ -1,0 +1,18 @@
+BackupTool (c) blaine booher
+see: http://github.com/booherbg/backupTool
+
+This tool takes a folder and deletes all but the N most recent files.
+It is meant to be used with a continuous backup system...
+
+By default it runs as a "dry run" with no deletions. Use -X to enable deletions.
+By default it keeps recent 4 file. Use -n 10, for example, to save 10 files
+By default it is interactive. Use -y to disable interactive mode
+
+Good luck. python backupTool.py --help for more information.
+
+The generateTestFiles.py tool will generate some random files to play around
+with. 
+
+Oh one more thing. By default it only deletes .bak files... to change this
+edit the python script. I didn't feel comfortable having this as an argument.
+Working with deletion anything feels dangerous.
