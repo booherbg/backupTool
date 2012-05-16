@@ -28,7 +28,7 @@ from sys import stderr, exit, argv
 from datetime import datetime
 
 N = 4
-FileFilter = "*.bak"
+FileFilter = ("*.bak", "*.trn")
 DryRun = True
 directory = None
 useModified = True
@@ -70,10 +70,15 @@ if __name__ == '__main__':
         stderr.write("%s not valid directory\n" % directory)
         exit(1)
         
+    # Get all files in filter list (supports multiple file types)
+    files = []
+    for f in FileFilter:
+        files.extend(glob(os.path.join(directory, f)))
+        
     # Grab a list of files in the directory
-    files = glob(os.path.join(directory, FileFilter))
+    #files = glob(os.path.join(directory, FileFilter))
     
-    stderr.write("Keeping only %d newly modified files from %s\n" % (N, os.path.join(directory, FileFilter)))
+    stderr.write("Keeping only %d newly modified files from %s\n" % (N, directory))
     if DryRun:
         stderr.write("Mode: Dry-Run (no deletions)\n")
     else:
@@ -93,9 +98,9 @@ if __name__ == '__main__':
     deleteList = pending[0:-N]
     keepList = pending[-N:]
     for t,f in deleteList:
-        stderr.write("%s %s <-- Delete\n" % (f,repr(t.strftime("%A, %d. %B %Y %I:%M%p"))))
+        stderr.write("%s %s <-- Delete\n" % (f,repr(t.strftime("%A, %d. %B %Y %I:%M:%S%p"))))
     for t,f in keepList:
-        stderr.write("%s %s <-- Keep\n" % (f,repr(t.strftime("%A, %d. %B %Y %I:%M%p"))))
+        stderr.write("%s %s <-- Keep\n" % (f,repr(t.strftime("%A, %d. %B %Y %I:%M:%S%p"))))
     
     # Remind of what mode it is
     if DryRun:
